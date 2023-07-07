@@ -17,7 +17,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CharacterDetailFragment: Fragment() {
+class CharacterDetailFragment : Fragment() {
     @Inject
     lateinit var repository: Repository
     lateinit var binding: FragmentDetailCharacterBinding
@@ -25,7 +25,7 @@ class CharacterDetailFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentDetailCharacterBinding.inflate(inflater, container, false)
         val currentId = arguments?.getString("id_character") ?: ""
@@ -37,30 +37,50 @@ class CharacterDetailFragment: Fragment() {
 
     private fun getCharacterById(currentId: String) {
         CoroutineScope(Dispatchers.Main).launch {
-        binding.idProgressBar.visibility = View.VISIBLE
+            binding.idProgressBar.visibility = View.VISIBLE
 
-        try {
-            var character = repository.getCharacterById(currentId).get(0)
-            binding.apply {
-                tvName.setText(getString(R.string.character_name, character.name))
-                tvAlternateNames.setText(getString(R.string.character_alternate_names, character.alternateNames?.joinToString(separator = ", ")))
-                tvActor.setText(getString(R.string.actor, character.actor))
-                tvGender.setText(getString(R.string.character_gender, character.gender))
-                tvEyeColor.setText(getString(R.string.character_eye_colour, character.eyeColour))
-                tvHairColor.setText(getString(R.string.character_hair_colour, character.hairColour))
-                tvDateOfBirth.setText(getString(R.string.character_date_of_birth, character.dateOfBirth.toString()))
+            try {
+                val character = repository.getCharacterById(currentId)
+                binding.apply {
+                    tvName.setText(getString(R.string.character_name, character.name))
+                    tvAlternateNames.setText(
+                        getString(
+                            R.string.character_alternate_names,
+                            character.alternateNames?.joinToString(separator = ", ")
+                        )
+                    )
+                    tvActor.setText(getString(R.string.actor, character.actor))
+                    tvGender.setText(getString(R.string.character_gender, character.gender))
+                    tvEyeColor.setText(
+                        getString(
+                            R.string.character_eye_colour,
+                            character.eyeColour
+                        )
+                    )
+                    tvHairColor.setText(
+                        getString(
+                            R.string.character_hair_colour,
+                            character.hairColour
+                        )
+                    )
+                    tvDateOfBirth.setText(
+                        getString(
+                            R.string.character_date_of_birth,
+                            character.dateOfBirth.toString()
+                        )
+                    )
 
+                }
+                Glide.with(requireContext())
+                    .load(character.image)
+                    .placeholder(R.drawable.placeholder_image)
+                    .into(binding.ivCharacter)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                binding.idProgressBar.visibility = View.GONE
             }
-            Glide.with(requireContext())
-                .load(character.image)
-                .placeholder(R.drawable.placeholder_image)
-                .into(binding.ivCharacter)
-        }catch (e: Exception){
 
-        }finally {
-            binding.idProgressBar.visibility = View.GONE
         }
-
-    }
     }
 }
