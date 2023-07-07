@@ -10,5 +10,5 @@ interface harryPotterCall {
     suspend fun getAllCharcters(): List<CharacterModel>
 
     @GET(ApiDetails.End_Point_Character_By_Id)
-    suspend fun getCharacterById(@Path("id") id: String): List<CharacterModel>
+    suspend fun getCharacterById(@Path("id") id: String): CharacterModel
 }

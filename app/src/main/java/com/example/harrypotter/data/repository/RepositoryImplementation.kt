@@ -12,7 +12,7 @@ class RepositoryImplementation @Inject constructor(
 
     }
 
-    override suspend fun getCharacterById(id: String): List<CharacterModel> {
+    override suspend fun getCharacterById(id: String): CharacterModel {
         return harryPotterCall.getCharacterById(id)
     }
 }
