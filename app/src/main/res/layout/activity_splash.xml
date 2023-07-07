@@ -1,0 +1,25 @@
+<!-- activity_splash.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/harry_potter_logo"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="match_parent"
+        android:fontFamily="@font/fasebulan"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        tools:text="@string/timer" />
+
+</LinearLayout>
